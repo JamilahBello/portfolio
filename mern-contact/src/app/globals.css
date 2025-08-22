@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --brand: #3b82f6;
+
+  /* Inputs */
+  --input-bg: var(--background);
+  --input-border: #d1d5db;         /* neutral-300 */
+  --input-placeholder: #6b7280;    /* neutral-500 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+   /* Correct dark palette (dark bg, light fg) */
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --input-bg: #111827;           /* neutral-900 */
+    --input-border: #4b5563;       /* neutral-600 */
+    --input-placeholder: #9ca3af;  /* neutral-400 */
+  }
+}
+
+/* ---------- Base ---------- */
+html { color-scheme: light dark; scroll-behavior: smooth; }
+* { box-sizing: border-box; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Base */
+html { color-scheme: light dark; scroll-behavior: smooth; }
+* { box-sizing: border-box; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Components (Tailwind v4 still supports @apply) */
+@layer components {
+  .container {
+    max-width: 48rem; /* max-w-3xl */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+    padding-left: 1rem; /* px-4 */
+    padding-right: 1rem; /* px-4 */
+  }
+
+  .card {
+        border-radius: 1rem; /* rounded-2xl */
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); /* shadow-sm */
+        border-width: 1px; /* border */
+        border-style: solid;
+        background-color: #fff; /* bg-white */
+        border-color: #e5e7eb; /* border-neutral-200 */
+    }
+
+    @media (prefers-color-scheme: dark) {
+    .card {
+      background-color: #0a0a0a;
+      border-color: #262626;       /* neutral-800 */
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.5); /* Example for ring-2 */
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: #fff;
+    background: var(--brand);
+  }
+  .btn-primary:hover { filter: brightness(0.95); }
+  .btn-primary:focus-visible { box-shadow: 0 0 0 2px var(--brand); }
+
+  /* ----- Inputs with strong borders (mobile-friendly) ----- */
+  .input {
+    width: 100%;
+    border-radius: 1rem;           /* rounded-2xl */
+    padding: 0.75rem;              /* px-3 py-3 */
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    color: var(--foreground);
+    font-size: 16px;               /* prevents iOS zoom-on-focus */
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .input::placeholder { color: var(--input-placeholder); }
+  .input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent);
+  }
+  .input[disabled] { opacity: .6; cursor: not-allowed; }
+
+  /* Autofill: stop white/yellow background on mobile */
+  input.input:-webkit-autofill,
+  textarea.input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+    caret-color: var(--foreground);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.875rem;           /* text-sm */
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: #374151;                /* neutral-700 */
+  }
+  @media (prefers-color-scheme: dark) {
+    .label { color: #d1d5db; }     /* neutral-300 */
+  }
+
+  .error {
+    font-size: 0.875rem;           /* text-sm */
+    color: #dc2626;                /* red-600 */
+    margin-top: 0.25rem;
+  }
+}
