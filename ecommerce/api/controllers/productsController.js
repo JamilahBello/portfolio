@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const ApiError = require("../utils/apiError");
 
 /**
  * Products Controller
@@ -161,7 +162,7 @@ exports.getProduct = async (req, res, next) => {
 
         const product = await Product.findById(id);
         if (!product) {
-            return res.status(404).json({ error: "Product not found" });
+            throw ApiError.notFound("Product not found");
         }
         res.status(200).json({ product });
     } catch (err) {
@@ -205,7 +206,7 @@ exports.updateProduct = async (req, res, next) => {
         );
 
         if (!updatedProduct) {
-            return res.status(404).json({ error: "Product not found" });
+            throw ApiError.notFound("Product not found");
         }
 
         res.status(200).json({
@@ -245,7 +246,7 @@ exports.deleteProduct = async (req, res, next) => {
         const product = await Product.findOne({ _id: id });
 
         if (!product) {
-            return res.status(404).json({ error: "Product not found" });
+            throw ApiError.notFound("Product not found");
         }
         await product.softDelete();
 

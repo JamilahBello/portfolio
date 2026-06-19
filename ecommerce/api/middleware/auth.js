@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const ApiError = require("../utils/apiError");
 
 /**
  * Authentication Middleware
@@ -46,7 +47,7 @@ exports.authenticate = async (req, res, next) => {
     const token = req.cookies?.token || bearer;
 
     if (!token) {
-        return res.status(401).json({ error: "Token not found" });
+        throw ApiError.unauthorized("Token not found");
     }
 
     try {
@@ -62,7 +63,7 @@ exports.authenticate = async (req, res, next) => {
         // Lookup user by decoded.id (adjust to decoded.sub if your token uses 'sub')
         const user = await User.findById(decoded.id);
         if (!user || user.deleted) {
-            return res.status(401).json({ error: "Invalid token or user" });
+            throw ApiError.unauthorized("Invalid token or user");
         }
 
         // Attach user to request object for downstream use
@@ -70,6 +71,6 @@ exports.authenticate = async (req, res, next) => {
         next();
     } catch (err) {
         console.error(err);
-        return res.status(401).json({ error: "Unauthorized" });
+        throw ApiError.unauthorized("Unauthorized");
     }
 };

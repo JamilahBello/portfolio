@@ -1,5 +1,6 @@
 const Invoice = require("../models/Invoice");
 const Order = require("../models/Order");
+const ApiError = require("../utils/apiError");
 
 /**
  * Invoices Controller
@@ -79,7 +80,7 @@ exports.createInvoice = async (req, res, next) => {
 
         const order = await Order.findById(orderId);
         if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+            throw ApiError.notFound("Order not found");
         }
 
         const invoice = new Invoice({
@@ -193,14 +194,14 @@ exports.getInvoice = async (req, res, next) => {
 
         const invoice = await Invoice.findById(id);
         if (!invoice) {
-            return res.status(404).json({ error: "Invoice not found" });
+            throw ApiError.notFound("Invoice not found");
         }
 
         if (
             invoice.userId.toString() !== req.user.id &&
             !["admin", "staff"].includes(req.user.type)
         ) {
-            return res.status(403).json({ error: "Unauthorized" });
+            throw ApiError.forbidden("Forbidden");
         }
 
         res.status(200).json({ invoice });
@@ -243,11 +244,11 @@ exports.deleteInvoice = async (req, res, next) => {
         const { id } = req.validated.params;
         const invoice = await Invoice.findById(id).populate("orderId");
         if (!invoice) {
-            return res.status(404).json({ error: "Invoice not found" });
+            throw ApiError.notFound("Invoice not found");
         }
 
         if (invoice.status === "paid") {
-            return res.status(400).json({ error: "Invoice already paid" });
+            throw ApiError.badRequest("Invoice already paid");
         }
 
         await Invoice.findByIdAndDelete(id);
@@ -298,11 +299,11 @@ exports.payInvoice = async (req, res, next) => {
         const { invoiceId, proofOfPayment } = req.validated.body;
         const invoice = await Invoice.findById(invoiceId).populate("orderId");
         if (!invoice) {
-            return res.status(404).json({ error: "Invoice not found" });
+            throw ApiError.notFound("Invoice not found");
         }
 
         if (invoice.status === "paid") {
-            return res.status(400).json({ error: "Invoice already paid" });
+            throw ApiError.badRequest("Invoice already paid");
         }
 
         invoice.status = "paid";

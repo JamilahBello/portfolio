@@ -2,6 +2,7 @@ const Email = require("../models/Email");
 const { sanitizeEmail } = require("../utils/formatters");
 const nodemailer = require("nodemailer");
 const { createEmailBody } = require("../utils/schemas/emailSchemas");
+const ApiError = require("../utils/apiError");
 
 /**
  * Emails Controller
@@ -131,7 +132,7 @@ exports.updateEmailStatus = async (req, res, next) => {
 
         const email = await Email.findById(id);
         if (!email) {
-            return res.status(404).json({ error: "Email not found" });
+            throw ApiError.notFound("Email not found");
         }
 
         email.status = status;

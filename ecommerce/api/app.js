@@ -11,6 +11,7 @@ const invoicesRoutes = require('./routes/invoices');
 const categoriesRoutes = require('./routes/categories');
 const geographiesRoutes = require('./routes/geographies');
 const emailsRoutes = require('./routes/emails');
+const notFound = require("./middleware/notFound");
 
 const errorHandler = require("./middleware/errorHandler");
 
@@ -46,7 +47,7 @@ app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/geographies', geographiesRoutes);
 app.use('/api/v1/emails', emailsRoutes);
 
-// Global Error Handler
+app.use(notFound);
 app.use(errorHandler);
 
 module.exports = app;
