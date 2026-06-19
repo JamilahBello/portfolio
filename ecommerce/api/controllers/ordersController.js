@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const Invoice = require("../models/Invoice");
 const Product = require("../models/Product");
+const ApiError = require("../utils/apiError");
 
 /**
  * Orders Controller
@@ -94,7 +95,7 @@ exports.createOrder = async (req, res, next) => {
         } = req.validated.body;
 
         if (userId !== req.user.id && !["admin", "staff"].includes(req.user.type)) {
-            return res.status(403).json({ error: "Unauthorized" });
+            throw ApiError.forbidden("Forbidden");
         }
 
         const order = new Order({
@@ -109,13 +110,13 @@ exports.createOrder = async (req, res, next) => {
         for (const item of products) {
             const product = await Product.findById(item.productId);
             if (!product) {
-                return res.status(404).json({ error: "Product not found" });
+                throw ApiError.notFound("Product not found");
             }
             if (product.quantity < item.quantity) {
-                return res.status(400).json({ error: "Insufficient stock" });
+                throw ApiError.badRequest("Insufficient stock");
             }
             if (product.price !== item.price) {
-                return res.status(400).json({ error: "Price mismatch" });
+                throw ApiError.badRequest("Price mismatch");
             }
         }
 
@@ -238,14 +239,14 @@ exports.getOrder = async (req, res, next) => {
 
         const order = await Order.findById(id).populate("products.productId");
         if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+            throw ApiError.notFound("Order not found");
         }
 
         if (
             order.userId.toString() !== req.user.id &&
             !["admin", "staff"].includes(req.user.type)
         ) {
-            return res.status(403).json({ error: "Unauthorized" });
+            throw ApiError.forbidden("Forbidden");
         }
 
         res.status(200).json({ order });
@@ -303,7 +304,7 @@ exports.updateOrder = async (req, res, next) => {
         );
 
         if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+            throw ApiError.notFound("Order not found");
         }
 
         const invoice = await Invoice.findOne({
@@ -366,11 +367,11 @@ exports.deleteOrder = async (req, res, next) => {
         const order = await Order.findById(id);
 
         if (!order) {
-            return res.status(404).json({ error: "Order not found" });
+            throw ApiError.notFound("Order not found");
         }
 
         if (order.paymentStatus === "paid") {
-            return res.status(400).json({ error: "Cannot delete a paid order" });
+            throw ApiError.badRequest("Cannot delete paid order");
         }
 
         // Restore inventory

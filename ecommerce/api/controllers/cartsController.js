@@ -1,5 +1,6 @@
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const ApiError = require("../utils/apiError");
 
 /**
  * Cart Controller
@@ -75,11 +76,11 @@ exports.addToCart = async (req, res, next) => {
 
         const product = await Product.findOne({ _id: productId, deletedAt: null });
         if (!product) {
-          return res.status(404).json({ error: "Product not found" });
+            throw ApiError.notFound("Product not found");
         }
 
         if (product.quantity != null && product.quantity < quantity) {
-          return res.status(400).json({ error: "Insufficient stock" });
+            throw ApiError.badRequest("Insufficient stock");
         }
 
         const cart = await Cart.findOrCreate(req.user.id);
@@ -135,11 +136,11 @@ exports.getCart = async (req, res, next) => {
 
         const cart = await Cart.findById(id);
         if (!cart) {
-            return res.status(404).json({ error: "Cart not found" });
+            throw ApiError.notFound("Cart not found");
         }
 
-        if (cart.userId.toString() !== req.user.id &&!["admin", "staff"].includes(req.user.type)) {
-            return res.status(403).json({ error: "Unauthorized" });
+        if (cart.userId.toString() !== req.user.id && !["admin", "staff"].includes(req.user.type)) {
+            throw ApiError.forbidden("Forbidden");
         }
 
         res.status(200).json({ cart });
@@ -187,16 +188,16 @@ exports.getCart = async (req, res, next) => {
 exports.removeFromCart = async (req, res, next) => {
     try {
         const { productId } = req.validated.params;
-        const {  quantity } = req.validated.query;
+        const { quantity } = req.validated.query;
         const cart = await Cart.findOne({ userId: req.user.id });
         if (!cart) {
-            return res.status(404).json({ error: "Cart not found" });
+            throw ApiError.notFound("Cart not found");
         }
 
         // Check if product exists
         const product = await Product.findById(productId);
         if (!product || product.isDeleted) {
-            return res.status(404).json({ error: "Product not found" });
+            throw ApiError.notFound("Product not found");
         }
 
         // update line
@@ -249,7 +250,7 @@ exports.clearCart = async (req, res, next) => {
             { new: true },
         );
         if (!cart) {
-            return res.status(404).json({ error: "Cart not found" });
+            throw ApiError.notFound("Cart not found");
         }
         res.status(200).json({ message: "Cart cleared successfully", cart });
     } catch (err) {

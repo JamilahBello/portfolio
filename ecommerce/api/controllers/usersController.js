@@ -3,6 +3,7 @@ const { sanitizeUser } = require("../utils/formatters");
 const { generateToken } = require("../utils/jwt");
 const { createEmailService } = require("./emailsController");
 const { setAuthCookie } = require("../utils/cookies");
+const ApiError = require("../utils/apiError");
 
 /**
  * Users Controller
@@ -79,7 +80,7 @@ exports.registerUser = async (req, res, next) => {
 
         const userExists = await User.findOne({ email });
         if (userExists) {
-            return res.status(409).json({ error: "Email already registered" });
+            throw ApiError.conflict("Email already registered");
         }
 
         const user = new User({
@@ -141,7 +142,7 @@ exports.loginUser = async (req, res, next) => {
         const user = await User.findOne({ email });
 
         if (!user || !(await user.comparePassword(password))) {
-            return res.status(401).json({ error: "Email or password is incorrect" });
+            throw ApiError.unauthorized("Email or password is incorrect");
         }
 
         const token = generateToken(user);
@@ -217,7 +218,7 @@ exports.forgotPassword = async (req, res, next) => {
         const { email } = req.validated.body;
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            throw ApiError.notFound("User not found");
         }
 
         const token = user.generatePasswordResetToken();
@@ -328,12 +329,12 @@ exports.getUser = async (req, res, next) => {
         const { id } = req.validated.params;
 
         if (id !== req.user.id && !["admin", "staff"].includes(req.user.type)) {
-            return res.status(403).json({ error: "Forbidden" });
+            throw ApiError.forbidden("Forbidden");
         }
 
         const user = await User.findById(id);
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            throw ApiError.notFound("User not found");
         }
 
         res.status(200).json({ user: sanitizeUser(user) });
@@ -382,7 +383,7 @@ exports.updateUser = async (req, res, next) => {
         );
 
         if (!updatedUser) {
-            return res.status(404).json({ error: "User not found" });
+            throw ApiError.notFound("User not found");
         }
 
         res.status(200).json({
@@ -430,7 +431,7 @@ exports.deleteUser = async (req, res, next) => {
 
         const user = await User.findById(id);
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            throw ApiError.notFound("User not found");
         }
 
         user.deleted = true;
