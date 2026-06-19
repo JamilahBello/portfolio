@@ -1,0 +1,33 @@
+{
+    "name": "ecommerce",
+    "version": "1.0.0",
+    "private": true,
+    "packageManager": "npm@11.5.2",
+    "workspaces": [
+        "api",
+        "frontend",
+        "admin-frontend"
+    ],
+    "scripts": {
+        "dev": "concurrently -k -n API,WEB,ADMIN \"npm run dev:api\" \"npm run dev:frontend\" \"npm run dev:admin\"",
+        "dev:turbo": "turbo dev",
+        "build": "turbo build",
+        "test": "turbo test",
+        "lint": "turbo lint",
+
+        "dev:api": "npm run dev --workspace=api",
+        "dev:frontend": "npm run dev --workspace=frontend",
+        "dev:admin": "npm run dev --workspace=admin-frontend",
+
+        "test:api": "npm run test --workspace=api",
+        "test:api:watch": "npm run test:watch --workspace=api",
+        "test:api:coverage": "npm run test:coverage --workspace=api",
+        
+        "build:frontend": "npm run build --workspace=frontend",
+        "build:admin": "npm run build --workspace=admin-frontend"
+    },
+    "devDependencies": {
+        "concurrently": "^10.0.3",
+        "turbo": "^2.5.0"
+    }
+}
