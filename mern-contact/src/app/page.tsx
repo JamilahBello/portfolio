@@ -21,7 +21,7 @@ export default function Page() {
 
       <Section id="about" title="About">
         <p>
-          Dynamic Software Engineer with 5+ years building and maintaining scalable web apps across fintech, blockchain, and e‑commerce. I focus on clean architecture, testing, documentation, and user‑centered delivery.
+          Dynamic Software Engineer experience building and maintaining scalable web apps across fintech, blockchain, and e‑commerce. I focus on clean architecture, testing, documentation, and user‑centered delivery.
         </p>
       </Section>
 
