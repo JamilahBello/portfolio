@@ -41,30 +41,43 @@ export default function Page() {
         </div>
         <div className="mt-6 grid gap-2 text-sm">
           <div className="rounded-lg border p-3">
-          <div className="font-semibold">Software Engineer — Elite Resources and Requisition (Brisbane) — 01/2025 – Present</div>
-            <ul className="list-disc pl-5">
-              <li>Engineered a robust e‑commerce backend with Express, MongoDB, and Next.js.</li>
-              <li>Implemented secure auth and RBAC; strengthened validation and modular architecture.</li>
-            </ul>
+            <div className="font-semibold">Technology Innovation, Research & Implementation Specialist —  Better Ideas Pty Ltd (Sydney) — 11/2025 – 02/2026</div>
+              <ul className="list-disc pl-5">
+                <li>Architected ESG Navigator, a multi-tenant ESG analytics platform designed for enterprise reporting, compliance visibility, and governance 
+                workflows</li> 
+                <li>Translated product strategy and regulatory concepts into structured technical specifications that enabled implementation planning</li> 
+                <li>Identified and resolved critical architectural gaps across aggregation logic, tokenisation, tenancy, and data lineage before development began</li> 
+                <li>Designed system architecture and data workflows aligned with the Microsoft Fabric ecosystem</li> 
+                <li>Defined traceability models to support audit-ready reporting and governance-aligned system behaviour</li> 
+                <li>Established a PRINCE2-style delivery framework from scratch, including PID, Work Packages, risk controls, and quality controls</li> 
+                <li>Reduced ambiguity across stakeholders by converting complex product, compliance, and technical concerns into build-ready decisions</li> 
+                <li>Operated as sole technical owner, bridging business, compliance, and engineering priorities</li> 
+                <li>Applied systems thinking to balance regulatory expectations, platform scalability, workflow clarity, and practical delivery constraints</li> 
+              </ul>
           </div>
           <div className="rounded-lg border p-3">
-          <div className="font-semibold">Software Engineer — Funding.com.au (Gold Coast) — 07/2023 – 01/2025</div>
-            <ul className="list-disc pl-5">
-              <li>Enhanced a real‑estate investment platform with React and PHP.</li>
-              <li>Drove documentation and release readiness across sprints.</li>
-            </ul>
+            <div className="font-semibold">Software Engineer — Funding.com.au (Gold Coast) — 07/2023 – 01/2025</div>
+              <ul className="list-disc pl-5">
+                <li>Delivered frontend features for a fintech lending platform supporting brokers, customers, and internal operations teams</li> 
+                <li>Reduced manual workflows by digitising loan and operational processes</li> 
+                <li>Improved API interaction clarity by reducing redundant calls and simplifying integration behaviour</li> 
+                <li>Enhanced backend testing approach, improving developer efficiency and reducing implementation complexity</li> 
+                <li>Built reusable UI components and admin tools to support internal workflows and platform operations</li> 
+                <li>Collaborated closely with stakeholders to translate business requirements into working platform functionality</li> 
+                <li>Worked in a regulated financial services environment where reliability, workflow clarity, access control, and operational risk were important 
+                delivery considerations</li> 
+              </ul>
           </div>
           <div className="rounded-lg border p-3">
-          <div className="font-semibold">Software Engineer — Labrys Group (Brisbane) — 02/2022 – 07/2023</div>
-            <ul className="list-disc pl-5">
-              <li>Built dynamic UIs in React/Next.js; integrated smart‑contract UIs.</li>
-            </ul>
-          </div>
-          <div className="rounded-lg border p-3">
-          <div className="font-semibold">Software Developer — Itex Integrated Services (Lagos) — 04/2018 – 05/2021</div>
-            <ul className="list-disc pl-5">
-              <li>Contributed to the TrackMoney platform using Angular and Node.js.</li>
-            </ul>
+            <div className="font-semibold">Software Engineer — Labrys Group (Brisbane) — 02/2022 – 07/2023</div>
+              <ul className="list-disc pl-5">
+                <li>Developed blockchain-integrated user interfaces for NFT minting, purchasing, and asset management workflows</li> 
+                <li>Integrated web3 wallet functionality, including Rainbow Wallet, to support transaction execution and user authentication flows</li> 
+                <li>Handled asynchronous transaction states, failures, loading states, and user feedback across decentralised systems</li> 
+                <li>Built reusable frontend components aligned with product requirements and client branding</li> 
+                <li>Collaborated with smart contract and backend teams across multiple client projects</li> 
+                <li>Improved user-flow clarity across transaction-heavy interfaces where failed, pending, and confirmed states required careful handling</li>
+              </ul>
           </div>
         </div>
       </Section>
